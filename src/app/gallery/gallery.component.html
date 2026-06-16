@@ -1,0 +1,83 @@
+<div class="page-container">
+  <div class="gallery-header fade-in">
+    <div class="gallery-heading">
+      <h1 class="page-title">Curated Gallery</h1>
+      <p class="page-subtitle">Explore masterpieces by painter or title</p>
+    </div>
+    
+    <div class="search-container">
+      <input type="text" 
+             [(ngModel)]="searchQuery" 
+             (ngModelChange)="onSearchChange()" 
+             placeholder="Search for an artist or painting..."
+             class="search-input glass-panel">
+      <svg class="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    </div>
+  </div>
+
+  <div class="gallery-grid">
+    <div *ngFor="let art of artworks; let i = index" 
+         class="art-card glass-panel fade-in" 
+         [style.animationDelay]="(i % 10) * 0.1 + 's'"
+         (click)="openModal(art)"
+         style="cursor: pointer;">
+      <div class="card-image-wrapper">
+        <img [src]="art.imageUrl" [alt]="art.title" class="card-image" loading="lazy">
+        <div class="card-overlay">
+          <span class="medium-tag">{{ art.medium_display }}</span>
+        </div>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">{{ art.title }}</h3>
+        <p class="card-artist">{{ art.artist_display }}</p>
+        <p class="card-date">{{ art.date_display }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading masterpieces...</p>
+  </div>
+
+  <div class="load-more-container" *ngIf="!isLoading && artworks.length > 0">
+    <button class="load-more-btn glass-panel" (click)="loadMore()">Load More</button>
+  </div>
+  
+  <div class="empty-state" *ngIf="!isLoading && artworks.length === 0">
+    <p>No masterpieces found matching "{{ searchQuery }}".</p>
+  </div>
+  
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" *ngIf="selectedArt" (click)="closeModal()">
+    <div class="modal-content glass-panel" (click)="$event.stopPropagation()">
+      <button class="close-btn" (click)="closeModal()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      
+      <div class="modal-layout">
+        <div class="modal-image-container">
+          <img [src]="selectedArt.imageUrl" [alt]="selectedArt.title" class="modal-image">
+        </div>
+        
+        <div class="modal-info">
+          <h2 class="modal-title">{{ selectedArt.title }}</h2>
+          <h4 class="modal-artist">{{ selectedArt.artist_display }}</h4>
+          
+          <div class="modal-details">
+            <p><strong>Date:</strong> {{ selectedArt.date_display }}</p>
+            <p><strong>Medium:</strong> {{ selectedArt.medium_display }}</p>
+            <p *ngIf="selectedArt.description" class="modal-desc" [innerHTML]="selectedArt.description"></p>
+          </div>
+          
+          <div class="modal-actions">
+            <a [href]="getWikiLink(selectedArt.artist_display)" target="_blank" rel="noopener noreferrer" class="wiki-link-btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              Learn about Artist
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
