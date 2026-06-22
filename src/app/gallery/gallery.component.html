@@ -41,7 +41,7 @@
   </div>
 
   <div class="load-more-container" *ngIf="!isLoading && artworks.length > 0">
-    <button class="load-more-btn glass-panel" (click)="loadMore()">Load More</button>
+    <button class="load-more-btn" (click)="loadMore()">Load More</button>
   </div>
   
   <div class="empty-state" *ngIf="!isLoading && artworks.length === 0">
@@ -72,7 +72,7 @@
           
           <div class="modal-actions">
             <a [href]="getWikiLink(selectedArt.artist_display)" target="_blank" rel="noopener noreferrer" class="wiki-link-btn">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              <!-- <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> -->
               Learn about Artist
             </a>
           </div>
