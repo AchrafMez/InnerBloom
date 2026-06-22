@@ -12,6 +12,7 @@ export interface Artwork {
   image_id: string;
   imageUrl?: string;
   description?: string;
+  hasImageError?: boolean;
 }
 
 export interface ArtResponse {

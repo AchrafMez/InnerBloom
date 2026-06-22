@@ -18,11 +18,12 @@
   <div class="gallery-grid">
     <div *ngFor="let art of artworks; let i = index" 
          class="art-card glass-panel fade-in" 
+         [style.display]="art.hasImageError ? 'none' : 'flex'"
          [style.animationDelay]="(i % 10) * 0.1 + 's'"
          (click)="openModal(art)"
          style="cursor: pointer;">
       <div class="card-image-wrapper">
-        <img [src]="art.imageUrl" [alt]="art.title" class="card-image" loading="lazy">
+        <img [src]="art.imageUrl" [alt]="art.title" class="card-image" loading="lazy" (error)="art.hasImageError = true">
         <div class="card-overlay">
           <span class="medium-tag">{{ art.medium_display }}</span>
         </div>
