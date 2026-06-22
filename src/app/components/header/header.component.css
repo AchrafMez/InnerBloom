@@ -73,6 +73,21 @@
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
+.github-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.github-link svg {
+  transition: transform 0.3s ease;
+  filter: drop-shadow(1px 2px 4px rgba(0,0,0,0.6));
+}
+
+.github-link:hover svg {
+  transform: translateY(-2px);
+}
+
 @media (max-width: 480px) {
   .header {
     padding: 15px 5%;
