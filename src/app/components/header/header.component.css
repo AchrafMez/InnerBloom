@@ -84,9 +84,9 @@
   filter: drop-shadow(1px 2px 4px rgba(0,0,0,0.6));
 }
 
-.github-link:hover svg {
+/* .github-link:hover svg {
   transform: translateY(-2px);
-}
+} */
 
 @media (max-width: 480px) {
   .header {
