@@ -14,15 +14,14 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
   styleUrl: './gallery.component.css'
 })
 export class GalleryComponent implements OnInit {
+  private readonly pageSize = 15;
+
   artworks: Artwork[] = [];
   searchQuery: string = '';
   searchSubject = new Subject<string>();
   isLoading: boolean = true;
   page: number = 1;
   selectedArt: Artwork | null = null;
-
-  private iconicTerms = ['Vincent van Gogh', 'Claude Monet', 'Rembrandt', 'Pierre-Auguste Renoir', 'Edgar Degas', 'Paul Cézanne', 'Impressionism', 'Renaissance', 'Baroque', 'Post-Impressionism', 'Masterpiece', 'Classic Painting', 'Oil on canvas', 'Portrait', 'Landscape'];
-  private currentTerm: string = '';
 
   constructor(
     private artService: ArtService,
@@ -69,17 +68,15 @@ export class GalleryComponent implements OnInit {
 
   loadArtworks() {
     this.isLoading = true;
-    this.currentTerm = this.iconicTerms[Math.floor(Math.random() * this.iconicTerms.length)];
-    const randomPage = Math.floor(Math.random() * 5) + 1;
-    this.artService.searchArtworks(this.currentTerm, randomPage, 30).subscribe(res => {
-      this.artworks = this.shuffle(res.data);
+    this.artService.getPaintingArtworks(this.page, this.pageSize).subscribe(res => {
+      this.artworks = res.data;
       this.isLoading = false;
     });
   }
 
   searchArtworks(query: string) {
     this.isLoading = true;
-    this.artService.searchArtworks(query, this.page, 30).subscribe(res => {
+    this.artService.searchArtworks(query, this.page, this.pageSize).subscribe(res => {
       this.artworks = res.data;
       this.isLoading = false;
     });
@@ -87,17 +84,15 @@ export class GalleryComponent implements OnInit {
 
   loadMore() {
     this.page++;
+    this.isLoading = true;
+
     if (this.searchQuery.trim() === '') {
-      this.isLoading = true;
-      const nextTerm = this.iconicTerms[Math.floor(Math.random() * this.iconicTerms.length)];
-      const randomPage = Math.floor(Math.random() * 5) + 1;
-      this.artService.searchArtworks(nextTerm, randomPage, 30).subscribe(res => {
-        this.artworks = [...this.artworks, ...this.shuffle(res.data)];
+      this.artService.getPaintingArtworks(this.page, this.pageSize).subscribe(res => {
+        this.artworks = [...this.artworks, ...res.data];
         this.isLoading = false;
       });
     } else {
-      this.isLoading = true;
-      this.artService.searchArtworks(this.searchQuery, this.page, 30).subscribe(res => {
+      this.artService.searchArtworks(this.searchQuery, this.page, this.pageSize).subscribe(res => {
         this.artworks = [...this.artworks, ...this.shuffle(res.data)];
         this.isLoading = false;
       });

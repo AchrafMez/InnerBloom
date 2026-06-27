@@ -2,8 +2,8 @@
   <div class="slides-wrapper" (click)="handleSlideClick($event)">
     <div *ngFor="let art of artworks; let i = index" 
          class="slide" 
-         [class.active]="i === currentIndex"
-         [style.backgroundImage]="'url(' + art.imageUrl + ')'">
+         [class.active]="i === currentIndex">
+      <img class="slide-image" [src]="art.imageUrl" [alt]="art.thumbnail?.alt_text || art.title">
       
       <div class="slide-overlay"></div>
       

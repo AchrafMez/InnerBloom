@@ -26,11 +26,7 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    const iconicTerms = ["Vincent van Gogh", "Claude Monet", "Rembrandt", "Pierre-Auguste Renoir", "Edgar Degas", "Paul Cézanne", "Impressionism", "Renaissance", "Baroque", "Post-Impressionism", "Masterpiece", "Classic Painting"];
-    const randomTerm = iconicTerms[Math.floor(Math.random() * iconicTerms.length)];
-    const randomPage = Math.floor(Math.random() * 3) + 1;
-
-    this.artService.searchArtworks(randomTerm, randomPage, 20).subscribe(res => {
+    this.artService.getPaintingArtworks(1, 10).subscribe(res => {
       // Shuffle the results to guarantee different order
       this.artworks = res.data.sort(() => 0.5 - Math.random());
       
